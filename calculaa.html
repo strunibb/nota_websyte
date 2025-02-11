@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор абонемента</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #e0f7fa, #80deea);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h1, h3 {
+            text-align: center;
+            color: #00695c;
+            margin: 10px 0;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .welcome-message {
+            background-color: #0097a7;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        .welcome-message strong {
+            color: #ffeb3b;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #00796b;
+            font-weight: bold;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #0097a7;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: #004d40;
+            background-color: #e0f7fa;
+            transition: border-color 0.3s ease;
+        }
+        select:focus {
+            border-color: #00695c;
+            outline: none;
+        }
+        .total-cost {
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            color: #00695c;
+        }
+        .counter-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .counter-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid #0097a7;
+            background-color: #80deea;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #004d40;
+        }
+        .counter-btn:hover {
+            background-color: #4dd0e1;
+            border-color: #00695c;
+        }
+        .counter-value {
+            font-size: 1.1em;
+            min-width: 30px;
+            text-align: center;
+            color: #00796b;
+        }
+        .teachers-selection {
+            margin-bottom: 15px;
+        }
+        .teachers-selection h3 {
+            color: #00796b;
+        }
+        .teachers-selection p {
+            font-size: 1em;
+            color: #004d40;
+        }
+        .payment-details {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e0f7fa;
+            border-radius: 10px;
+            border: 2px solid #0097a7;
+            text-align: center;
+            display: none; /* Скрыто по умолчанию */
+        }
+        .payment-details p {
+            margin: 8px 0;
+            color: #004d40;
+            font-size: 1em;
+        }
+        .payment-details strong {
+            color: #00695c;
+        }
+        .telegram-button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 24px;
+            background-color: #0088cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1em;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            width: fit-content;
+        }
+        .telegram-button:hover {
+            background-color: #006699;
+        }
+        .sticker {
+            display: inline-block;
+            font-size: 1.5em;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Приветственное сообщение -->
+        <div class="welcome-message">
+            Привет от Никиты из школы <strong>Струны Будущего!</strong> 🩵<br>
+            Здесь ты можешь рассчитать стоимость абонемента <strong>"Комбо"</strong>.<br>
+            Автоматически включены <strong>2, 3 или 4 занятия со мной</strong>, остальные занятия по желанию с любыми преподавателями!
+        </div>
+
+        <h1>Калькулятор абонемента</h1>
+
+        <label for="sessions">Выберите количество занятий:</label>
+        <select id="sessions" onchange="updateTeachers()">
+            <option value="4">4 занятия</option>
+            <option value="6">6 занятий</option>
+            <option value="8">8 занятий</option>
+        </select>
+
+        <div id="nikita" class="teachers-selection">
+            <h3>Занятия с Никитой</h3>
+            <p id="nikitaCount"></p>
+        </div>
+
+        <h3>Занятия с другими преподавателями:</h3>
+        
+        <div>
+            <label>Даниил:</label>
+            <div class="counter-container">
+                <button class="counter-btn" onclick="updateCount('danil', -1)">-</button>
+                <span class="counter-value" id="danilCount">0</span>
+                <button class="counter-btn" onclick="updateCount('danil', 1)">+</button>
+            </div>
+        </div>
+
+        <div>
+            <label>Ксения:</label>
+            <div class="counter-container">
+                <button class="counter-btn" onclick="updateCount('kseniya', -1)">-</button>
+                <span class="counter-value" id="kseniyaCount">0</span>
+                <button class="counter-btn" onclick="updateCount('kseniya', 1)">+</button>
+            </div>
+        </div>
+
+        <div>
+            <label>Ольга:</label>
+            <div class="counter-container">
+                <button class="counter-btn" onclick="updateCount('olga', -1)">-</button>
+                <span class="counter-value" id="olgaCount">0</span>
+                <button class="counter-btn" onclick="updateCount('olga', 1)">+</button>
+            </div>
+        </div>
+
+        <h3 class="total-cost">Общая стоимость: <span id="totalCost">0</span> рублей</h3>
+
+        <!-- Реквизиты для оплаты -->
+        <div class="payment-details" id="paymentDetails">
+            <h3>Реквизиты для оплаты</h3>
+            <p><strong>Номер телефона:</strong> +79220566724</p>
+            <p><strong>Банк:</strong> Сбербанк</p>
+            <p><strong>Получатель:</strong> Никита О.</p>
+        </div>
+
+        <!-- Кнопка для перехода в Telegram -->
+        <a href="https://t.me/nikguitar" class="telegram-button" target="_blank">
+            После оплаты присылать чек сюда <span class="sticker">📨</span>
+        </a>
+    </div>
+
+    <script>
+        const prices = {
+            nikita: 850,
+            danil: 690,
+            kseniya: 750,
+            olga: 750
+        };
+
+        function updateTeachers() {
+            const sessions = document.getElementById('sessions').value;
+            const nikitaCount = document.getElementById('nikitaCount');
+
+            if (sessions == 4) {
+                nikitaCount.textContent = "2 занятия с Никитой";
+            } else if (sessions == 6) {
+                nikitaCount.textContent = "3 занятия с Никитой";
+            } else if (sessions == 8) {
+                nikitaCount.textContent = "4 занятия с Никитой";
+            }
+            calculateTotal();
+        }
+
+        function getNikitaCount() {
+            const sessions = document.getElementById('sessions').value;
+            return (sessions == 4) ? 2 : (sessions == 6) ? 3 : 4;
+        }
+
+        function updateCount(teacher, delta) {
+            const countElement = document.getElementById(`${teacher}Count`);
+            let currentCount = parseInt(countElement.textContent) || 0;
+            currentCount = Math.max(0, currentCount + delta);
+            countElement.textContent = currentCount;
+            calculateTotal();
+        }
+
+        function validateTotal() {
+            const sessions = parseInt(document.getElementById('sessions').value);
+            const danilCount = parseInt(document.getElementById('danilCount').textContent) || 0;
+            const kseniyaCount = parseInt(document.getElementById('kseniyaCount').textContent) || 0;
+            const olgaCount = parseInt(document.getElementById('olgaCount').textContent) || 0;
+            const nikitaCount = getNikitaCount();
+
+            const totalSelected = danilCount + kseniyaCount + olgaCount + nikitaCount;
+
+            if (totalSelected > sessions) {
+                alert(`Сумма занятий не может быть больше ${sessions}!`);
+                resetExcessSelections(totalSelected, sessions);
+                return false;
+            }
+            return true;
+        }
+
+        function resetExcessSelections(totalSelected, sessions) {
+            const excess = totalSelected - sessions;
+            const fields = ['olga', 'kseniya', 'danil'];
+            
+            let remainingExcess = excess;
+            for (let fieldId of fields) {
+                if (remainingExcess <= 0) break;
+                const countElement = document.getElementById(`${fieldId}Count`);
+                let currentValue = parseInt(countElement.textContent);
+                
+                if (currentValue > 0) {
+                    const newValue = Math.max(0, currentValue - remainingExcess);
+                    remainingExcess -= (currentValue - newValue);
+                    countElement.textContent = newValue;
+                }
+            }
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            if (!validateTotal()) return;
+
+            const danilCount = parseInt(document.getElementById('danilCount').textContent) || 0;
+            const kseniyaCount = parseInt(document.getElementById('kseniyaCount').textContent) || 0;
+            const olgaCount = parseInt(document.getElementById('olgaCount').textContent) || 0;
+            const nikitaCount = getNikitaCount();
+
+            const totalCost = (nikitaCount * prices.nikita) + 
+                            (danilCount * prices.danil) + 
+                            (kseniyaCount * prices.kseniya) + 
+                            (olgaCount * prices.olga);
+            
+            document.getElementById('totalCost').textContent = totalCost;
+
+            // Показываем реквизиты для оплаты, если стоимость больше 0
+            const paymentDetails = document.getElementById('paymentDetails');
+            if (totalCost > 0) {
+                paymentDetails.style.display = 'block';
+            } else {
+                paymentDetails.style.display = 'none';
+            }
+        }
+
+        // Инициализация по умолчанию
+        updateTeachers();
+    </script>
+</body>
+</html>
