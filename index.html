@@ -8,7 +8,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
         :root {
             --primary: #3498db;
-            --success: #2ecc71;
+            --success: #9c27b0;
             --error: #e74c3c;
             --wood: #5a3d2b;
             --gold: #ffd700;
@@ -53,7 +53,7 @@
             font-size: 2.5em;
             margin-bottom: 1rem;
             text-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            background: linear-gradient(45deg, #3498db, #2ecc71);
+            background: linear-gradient(45deg, #9c27b0, #3f51b5);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -80,23 +80,23 @@
             font-weight: 700;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
             position: relative;
-            background: linear-gradient(45deg, #3498db, #2ecc71);
+            background: linear-gradient(45deg, #673ab7, #9c27b0);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .guitar-fretboard {
             display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            padding: 2rem;
-            background: linear-gradient(to right, #654321, #836539);
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #3a1c71, #89216b, #da4453);
             border-radius: 16px;
             position: relative;
-            border: 4px solid #5a4b3d;
+            border: 2px solid rgba(255,255,255,0.2);
             box-shadow: 
-                inset 0 4px 12px rgba(0,0,0,0.3),
-                0 8px 20px rgba(0,0,0,0.4);
+                inset 0 4px 20px rgba(0,0,0,0.3),
+                0 8px 30px rgba(0,0,0,0.5);
         }
 
         .guitar-fretboard::before {
@@ -107,10 +107,10 @@
             right: 0;
             bottom: 0;
             background: repeating-linear-gradient(
-                to bottom,
+                to right,
                 transparent 0%,
-                transparent 94%,
-                rgba(255,255,255,0.1) 94%,
+                transparent 95%,
+                rgba(255,255,255,0.1) 95%,
                 rgba(255,255,255,0.1) 96%,
                 transparent 96%
             );
@@ -118,7 +118,7 @@
 
         .string {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
             position: relative;
             z-index: 1;
@@ -127,29 +127,27 @@
         .string::after {
             content: '';
             position: absolute;
-            width: 6px;
-            height: 100%;
-            background: linear-gradient(to bottom, 
-                #eee 0%, 
-                #ddd 20%, 
-                #bbb 50%, 
-                #999 100%);
-            border-radius: 4px;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, 
+                rgba(255,255,255,0.8) 0%, 
+                rgba(200,200,200,0.8) 50%, 
+                rgba(180,180,180,0.8) 100%);
             z-index: -1;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
 
         .fret {
             width: 60px;
-            height: 60px;
-            margin: 12px 0;
+            height: 50px;
+            margin: 0 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            border-radius: 12px;
-            background: rgba(0,0,0,0.3);
-            border: 2px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             font-weight: 600;
@@ -161,10 +159,10 @@
         .fret::before {
             content: '';
             position: absolute;
-            top: -10px;
-            width: 40px;
-            height: 4px;
-            background: #666;
+            left: -6px;
+            width: 4px;
+            height: 30px;
+            background: rgba(255,255,255,0.5);
             border-radius: 2px;
         }
 
@@ -254,7 +252,7 @@
             0% { transform: scale(1); }
             50% { 
                 transform: scale(1.2) rotate(360deg);
-                box-shadow: 0 0 30px var(--success);
+                box-shadow: 0 0 30px rgba(156, 39, 176, 0.7);
             }
             100% { 
                 transform: scale(1) rotate(0);
@@ -336,22 +334,39 @@
             <button onclick="showNotes()">
                 <span class="emoji">🎵</span> Показать ноты
             </button>
-            <button onclick="startTraining()">
-                <span class="emoji">🏁</span> Начать тренировку
+            <button onclick="startTraining([6,5])">
+                <span class="emoji">6/5</span> Струны 6 и 5
+            </button>
+            <button onclick="startTraining([4,3])">
+                <span class="emoji">4/3</span> Струны 4 и 3
+            </button>
+            <button onclick="startTraining([2,1])">
+                <span class="emoji">2/1</span> Струны 2 и 1
+            </button>
+            <button onclick="startTraining([6,5,4,3,2,1])">
+                <span class="emoji">🎸</span> Все струны
             </button>
         </div>
         <div class="note-display" id="noteDisplay">🎵 Выберите ноту: </div>
         <div class="guitar-fretboard" id="guitarFretboard">
-            <div class="string" id="string6"></div>
+            <div class="string" id="string1"></div>
+            <div class="string" id="string2"></div>
+            <div class="string" id="string3"></div>
+            <div class="string" id="string4"></div>
             <div class="string" id="string5"></div>
+            <div class="string" id="string6"></div>
         </div>
         <div class="message" id="message"></div>
     </div>
 
     <script>
         const notes = {
-            6: ['F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
-            5: ['A#', 'B', 'C', 'C#', 'D', 'D#', 'E']
+            6: ['F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D'],
+            5: ['A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G'],
+            4: ['D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C'],
+            3: ['G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F'],
+            2: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A'],
+            1: ['F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D']
         };
 
         let trainingMode = false;
@@ -369,11 +384,11 @@
         }
 
         function createFretboard(showNotes = false) {
-            for (let stringNumber = 6; stringNumber >= 5; stringNumber--) {
+            for (let stringNumber = 6; stringNumber >= 1; stringNumber--) {
                 const stringDiv = document.getElementById(`string${stringNumber}`);
                 stringDiv.innerHTML = '';
 
-                for (let i = 0; i < notes[stringNumber].length; i++) {
+                for (let i = 0; i < 10; i++) {
                     const fret = document.createElement('div');
                     fret.className = 'fret' + (showNotes ? ' note' : '');
                     fret.textContent = showNotes ? notes[stringNumber][i] : i + 1;
@@ -391,18 +406,38 @@
 
         function showNotes() {
             trainingMode = false;
+            // Show all strings
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`string${i}`).style.display = 'flex';
+            }
             createFretboard(true);
-            document.getElementById('noteDisplay').textContent = '🎸 Изучите ноты на грифе';
+            document.getElementById('noteDisplay').innerHTML = '<span style="color: white">🎸 Изучите ноты на грифе</span>';
             document.getElementById('message').textContent = '';
         }
 
-        function startTraining() {
+        function startTraining(stringsToTrain) {
             trainingMode = true;
-            createFretboard();
-            availableNotes = [...new Set([...notes[6], ...notes[5]])];
+            availableNotes = [];
+            
+            stringsToTrain.forEach(string => {
+                availableNotes = [...new Set([...availableNotes, ...notes[string]])];
+            });
+            
             foundPositions = [];
             correctPositions = [];
             document.getElementById('message').textContent = '';
+            
+            // Hide all strings first
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`string${i}`).style.display = 'none';
+            }
+            
+            // Show only selected strings
+            stringsToTrain.forEach(string => {
+                document.getElementById(`string${string}`).style.display = 'flex';
+            });
+            
+            createFretboard();
             selectRandomNote();
         }
 
@@ -419,16 +454,19 @@
             correctPositions = getNotePositions(currentNote);
             foundPositions = [];
             
-            document.getElementById('noteDisplay').textContent = `🎵 Найдите все ноты: ${currentNote}`;
+            document.getElementById('noteDisplay').innerHTML = `<span style="color: white">🎵 Найдите все ноты:</span> ${currentNote}`;
             document.getElementById('message').textContent = '';
         }
 
         function getNotePositions(note) {
             const positions = [];
-            for (let stringNumber = 5; stringNumber <= 6; stringNumber++) {
-                notes[stringNumber].forEach((n, index) => {
-                    if (n === note) positions.push({stringNumber, index});
-                });
+            for (let stringNumber = 1; stringNumber <= 6; stringNumber++) {
+                const stringEl = document.getElementById(`string${stringNumber}`);
+                if (stringEl.style.display !== 'none') {
+                    notes[stringNumber].forEach((n, index) => {
+                        if (n === note) positions.push({stringNumber, index});
+                    });
+                }
             }
             return positions;
         }
